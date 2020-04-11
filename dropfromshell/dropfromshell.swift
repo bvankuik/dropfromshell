@@ -9,7 +9,7 @@
 // You can set this directly, or fill it with the readOauthAccessToken() function
 // at the bottom of this script
 
-var oauthAccessToken: String = ""
+var :: String = ""
 
 // ---------------------------------------------------------------------
 //      No need to edit anything below this line
