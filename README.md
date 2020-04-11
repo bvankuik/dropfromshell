@@ -9,6 +9,18 @@ shell script. It's not meant for usage in a full-fledged macOS or iOS app.
 There are probably better solutions for that. This code is explicitly
 structured to be super-simple, and very easy to understand and hack yourself.
 
+# Current capabilities
+
+The code supports:
+* Listing files and directories
+* Creating directories
+* Getting information on a single file or directory
+* Uploading a file
+* Downloading a file
+
+Note that the Dropbox API supports uploading and downloading bigger files, in
+chunks. This code doesn't support that.
+
 # Usage
 
 To use it, first create an OAuth token on the Dropbox site, see here:
@@ -17,8 +29,9 @@ https://www.dropbox.com/developers/reference/oauth-guide
 To use this token, there are two options:
 * At the top of the `dropfromshell.swift` file, put it in `var oauthAccessToken`
 * Or create a JSON file in `~/.config/dropfromshell/dropfromshell.json` with
-  the
-  following content:
+  the following content, then add the line
+  `oauthAccessToken = readOauthAccessToken()` at the bottom of the
+  `dropfromshell.swift` file.
 
 ```
 {
