@@ -21,6 +21,12 @@ The code supports:
 Note that the Dropbox API supports uploading and downloading bigger files, in
 chunks. This code doesn't support that.
 
+# Install
+
+It's just the basis for a script. You don't install it centrally. You just fork
+this repo, clone it somewhere convenient, hack at your leisure in Xcode or vim,
+then run it from the commandline when you're finished.
+
 # Usage
 
 To use it, first create an OAuth token on the Dropbox site, see here:
