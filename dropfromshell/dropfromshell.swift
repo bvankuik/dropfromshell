@@ -12,7 +12,8 @@
 var oauthAccessToken: String = ""
 
 // ---------------------------------------------------------------------
-//      No need to edit anything below this line
+//      Don't edit below, instead put your additional custom code at the
+//      bottom of this script.
 // ---------------------------------------------------------------------
 
 import Foundation
@@ -33,6 +34,7 @@ fileprivate struct API {
     static let upload = URL(string: "https://content.dropboxapi.com/2/files/upload")!
     static let metadata = URL(string: "https://api.dropboxapi.com/2/files/get_metadata")!
     static let download = URL(string: "https://content.dropboxapi.com/2/files/download")!
+    static let move = URL(string: "https://api.dropboxapi.com/2/files/move")!
 }
 
 // Almost all requests include a path to a file or directory
@@ -46,6 +48,11 @@ fileprivate struct ListRequestBody: Encodable {
     let includeMediaInfo = false
     let includeDeleted = false
     let includeHasExplicitSharedMembers = false
+}
+
+fileprivate struct MoveRequestBody: Encodable {
+    let fromPath: String
+    let toPath: String
 }
 
 // Used to parse the reply to the listFolder operation
@@ -135,6 +142,38 @@ fileprivate func makeRequest(with url: URL) -> URLRequest {
     return request
 }
 
+// Move (or rename) a file or folder on Dropbox.
+// Doesn't return anything, just errors out if there was a problem.
+func dbMove(fromPath: String, toPath: String) {
+    var request = makeRequest(with: API.move)
+    let moveRequestBody = MoveRequestBody(fromPath: fromPath, toPath: toPath)
+    let encoder = JSONEncoder()
+    encoder.keyEncodingStrategy = .convertToSnakeCase
+
+    guard let body = try? encoder.encode(moveRequestBody) else {
+        fatalError("Error encoding JSON for move request")
+    }
+    request.httpBody = body
+
+    let semaphore = DispatchSemaphore(value: 0)
+    URLSession.shared.dataTask(with: request) { data, response, _ in
+        guard let response = response as? HTTPURLResponse else {
+            fatalError("Expected HTTPURLResponse")
+        }
+
+        if response.statusCode != 200 {
+            var msg = "While moving [" + fromPath + "] to [" + toPath +
+                "], expected HTTP 200 but received \(response.statusCode)"
+            if let data = data, let string = String(data: data, encoding: .utf8) {
+                msg += "\nServer response:\n" + string
+            }
+            fatalError(msg)
+        }
+        semaphore.signal()
+    }.resume()
+    _ = semaphore.wait(timeout: .distantFuture)
+}
+
 // Make a folder on dropbox. Example:
 // let result = dbMkdir(path: "/newdir")
 // print("mkdir " + (result ? "successful" : "already exists"))
@@ -175,9 +214,9 @@ func dbMkdir(path: String) -> Bool {
     return isDirectoryCreated
 }
 
-// Delete a file or folder on dropbox. Example:
+// Delete a file or folder on Dropbox. Example:
 // _ = dbDelete(path: "/test/blah2.png")
-// Returns true if successful false if it didn't work out for some reason.
+// Returns true if successful, false if it didn't work out for some reason.
 func dbDelete(path: String) -> Bool {
     var request = makeRequest(with: API.delete)
 
@@ -186,7 +225,7 @@ func dbDelete(path: String) -> Bool {
     encoder.keyEncodingStrategy = .convertToSnakeCase
 
     guard let body = try? encoder.encode(deleteRequestBody) else {
-        fatalError("Error encoding JSON to request directory list")
+        fatalError("Error encoding JSON for delete request")
     }
     request.httpBody = body
 
@@ -435,7 +474,5 @@ func dbDownloadFile(path: String, destination: URL) {
 }
 
 // ---------------------------------------------------------------------
-//      No need to edit anything above this line
+//      Start your script here
 // ---------------------------------------------------------------------
-
-// Start your script here

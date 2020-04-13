@@ -7,6 +7,10 @@
 //  Copyright © 2020 DutchVirtual. All rights reserved.
 //
 
+// ---------------------------------------------------------------------
+// Used to test the functions in dropfromshell.swift
+// ---------------------------------------------------------------------
+
 import Foundation
 import Darwin
 
@@ -31,33 +35,43 @@ _ = dbSimpleUpload(source: localTempFile, destinationPath: remoteTestFilePath)
 
 let metadata = dbMetadata(path: remoteTestFilePath)
 guard metadata == .file else {
-    fputs("Error occurred in dbSimpleUpload", stderr)
+    fputs("Error occurred in dbSimpleUpload\n", stderr)
+    exit(1)
+}
+
+let remoteTestFileCopy = "testfile(2).txt"
+let remoteTestFileCopyPath = remoteTestFolder + "/" + remoteTestFileCopy
+
+dbMove(fromPath: remoteTestFilePath, toPath: remoteTestFileCopyPath)
+guard dbMetadata(path: remoteTestFileCopyPath) == .file else {
+    fputs("Error occurred while moving file\n", stderr)
     exit(1)
 }
 
 let folderListing = dbListFolder(path: remoteTestFolder)
 guard let entry = folderListing.first,
     folderListing.count == 1,
-    entry.name == remoteTestFile,
+    entry.name == remoteTestFileCopy,
     entry.tag == .file else {
         
-    fputs("Expected list to return 1 file", stderr)
+    fputs("Expected list to return 1 file\n", stderr)
     exit(1)
 }
 
 let testfileCopy = localTempDir.appendingPathComponent(UUID().uuidString)
-dbDownloadFile(path: remoteTestFilePath, destination: testfileCopy)
+dbDownloadFile(path: remoteTestFileCopyPath, destination: testfileCopy)
 
 // See if contents are equal after uploading and downloading
 let contentsEqual = FileManager.default.contentsEqual(atPath: localTempFile.path,
                                                       andPath: testfileCopy.path)
 guard contentsEqual else {
-    fputs("Downloaded file is not equal to local test file", stderr)
+    fputs("Downloaded file is not equal to local test file\n", stderr)
     exit(1)
 }
 
 let deleteResult = dbDelete(path: remoteTestFolder)
 guard deleteResult else {
-    fputs("Failed to delete remote test folder", stderr)
+    fputs("Failed to delete remote test folder\n", stderr)
     exit(1)
 }
+
