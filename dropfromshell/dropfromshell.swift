@@ -316,7 +316,7 @@ func dbListFolder(path: String) -> [ListResponseBody.Entry] {
 // let fileURL = dir.appendingPathComponent("screenshot.png")
 // let result = simpleUpload(source: fileURL, destinationPath: "/test/screenshot.png")
 // print("Upload " + (result ? "successful" : "failed"))
-func dbSimpleUpload(source: URL, destinationPath: String) -> Bool {
+func dbSimpleUpload(source: URL, destinationPath: String) {
     let uploadHeader = UploadHeader(path: destinationPath)
     let encoder = JSONEncoder()
     encoder.keyEncodingStrategy = .convertToSnakeCase
@@ -332,7 +332,6 @@ func dbSimpleUpload(source: URL, destinationPath: String) -> Bool {
     request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
     request.setValue(uploadHeaderJSONString, forHTTPHeaderField: "Dropbox-API-Arg")
 
-    var success = false
     let semaphore = DispatchSemaphore(value: 0)
     URLSession.shared.uploadTask(with: request, fromFile: source) { data, response, _ in
         defer {
@@ -342,24 +341,21 @@ func dbSimpleUpload(source: URL, destinationPath: String) -> Bool {
         guard let response = response as? HTTPURLResponse else {
             fatalError("Expected HTTPURLResponse")
         }
-        if response.statusCode == 200 {
-            success = true
-        } else {
+        if response.statusCode != 200 {
             var msg = "Received \(response.statusCode), expected 200."
             if let data = data, let string = String(data: data, encoding: .utf8) {
                 msg += " Server response:\n" + string
             }
-            print(msg)
-            success = false
+            fatalError(msg)
         }
     }.resume()
     _ = semaphore.wait(timeout: .distantFuture)
-    return success
 }
 
 // Lists a single file.
 // Example:
-// let metadata = dbMetadata(path: remoteTestFilePath)
+// if let metadata = dbMetadata(path: remoteTestFilePath) {
+// 
 // guard metadata == .file else { fatalError("File expected!") }
 func dbMetadata(path: String) -> ListResponseBody.Entry.Tag? {
     var request = makeRequest(with: API.metadata)

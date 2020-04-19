@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89189BF024474E33008A839B /* TestDropfromshell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89189BEF24474E33008A839B /* TestDropfromshell.swift */; };
+		89189BF524475083008A839B /* dropfromshell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898D32A42312907D0029C9A2 /* dropfromshell.swift */; };
 		898D32A52312907D0029C9A2 /* dropfromshell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898D32A42312907D0029C9A2 /* dropfromshell.swift */; };
 		89EA099E2436243A00AA8573 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EA099D2436243A00AA8573 /* main.swift */; };
 /* End PBXBuildFile section */
@@ -24,12 +26,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		89189BED24474E33008A839B /* TestDropfromshell.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestDropfromshell.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		89189BEF24474E33008A839B /* TestDropfromshell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDropfromshell.swift; sourceTree = "<group>"; };
+		89189BF124474E33008A839B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		898D32A12312907D0029C9A2 /* dropfromshell */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dropfromshell; sourceTree = BUILT_PRODUCTS_DIR; };
 		898D32A42312907D0029C9A2 /* dropfromshell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dropfromshell.swift; sourceTree = "<group>"; };
 		89EA099D2436243A00AA8573 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		89189BEA24474E33008A839B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		898D329E2312907D0029C9A2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -40,10 +52,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		89189BEE24474E33008A839B /* TestDropfromshell */ = {
+			isa = PBXGroup;
+			children = (
+				89189BEF24474E33008A839B /* TestDropfromshell.swift */,
+				89189BF124474E33008A839B /* Info.plist */,
+			);
+			path = TestDropfromshell;
+			sourceTree = "<group>";
+		};
 		898D32982312907D0029C9A2 = {
 			isa = PBXGroup;
 			children = (
 				898D32A32312907D0029C9A2 /* dropfromshell */,
+				89189BEE24474E33008A839B /* TestDropfromshell */,
 				898D32A22312907D0029C9A2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				898D32A12312907D0029C9A2 /* dropfromshell */,
+				89189BED24474E33008A839B /* TestDropfromshell.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,6 +91,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		89189BEC24474E33008A839B /* TestDropfromshell */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 89189BF424474E33008A839B /* Build configuration list for PBXNativeTarget "TestDropfromshell" */;
+			buildPhases = (
+				89189BE924474E33008A839B /* Sources */,
+				89189BEA24474E33008A839B /* Frameworks */,
+				89189BEB24474E33008A839B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestDropfromshell;
+			productName = TestDropfromshell;
+			productReference = 89189BED24474E33008A839B /* TestDropfromshell.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		898D32A02312907D0029C9A2 /* dropfromshell */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 898D32A82312907D0029C9A2 /* Build configuration list for PBXNativeTarget "dropfromshell" */;
@@ -91,10 +131,13 @@
 		898D32992312907D0029C9A2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1100;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = DutchVirtual;
 				TargetAttributes = {
+					89189BEC24474E33008A839B = {
+						CreatedOnToolsVersion = 11.4;
+					};
 					898D32A02312907D0029C9A2 = {
 						CreatedOnToolsVersion = 11.0;
 					};
@@ -114,11 +157,31 @@
 			projectRoot = "";
 			targets = (
 				898D32A02312907D0029C9A2 /* dropfromshell */,
+				89189BEC24474E33008A839B /* TestDropfromshell */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		89189BEB24474E33008A839B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		89189BE924474E33008A839B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89189BF024474E33008A839B /* TestDropfromshell.swift in Sources */,
+				89189BF524475083008A839B /* dropfromshell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		898D329D2312907D0029C9A2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -131,6 +194,44 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		89189BF224474E33008A839B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MH8GQLL8BR;
+				INFOPLIST_FILE = TestDropfromshell/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.dutchvirtual.TestDropfromshell;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		89189BF324474E33008A839B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = MH8GQLL8BR;
+				INFOPLIST_FILE = TestDropfromshell/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.dutchvirtual.TestDropfromshell;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		898D32A62312907D0029C9A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -267,6 +368,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		89189BF424474E33008A839B /* Build configuration list for PBXNativeTarget "TestDropfromshell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89189BF224474E33008A839B /* Debug */,
+				89189BF324474E33008A839B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		898D329C2312907D0029C9A2 /* Build configuration list for PBXProject "dropfromshell" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
