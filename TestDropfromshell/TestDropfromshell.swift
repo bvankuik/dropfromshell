@@ -67,4 +67,20 @@ class TestDropfromshell: XCTestCase {
         XCTAssert(isDeleteBSuccess, "Test failed, please delete remote file manually: \(remoteTestFileB)")
     }
 
+    func testFileCopy() {
+        // Create local file
+        let localTestFile = makeLocalTestFile()
+        
+        let remoteTestFileA = "/testdropfromshellA_" + UUID().uuidString + ".txt"
+        let remoteTestFileB = "/testdropfromshellB_" + UUID().uuidString + ".txt"
+        dbSimpleUpload(source: localTestFile, destinationPath: remoteTestFileA)
+        dbCopy(fromPath: remoteTestFileA, toPath: remoteTestFileB)
+        
+        let isDeleteASuccess = dbDelete(path: remoteTestFileA)
+        XCTAssert(isDeleteASuccess, "Test failed, please delete remote file manually: \(remoteTestFileA)")
+
+        let isDeleteBSuccess = dbDelete(path: remoteTestFileB)
+        XCTAssert(isDeleteBSuccess, "Test failed, please delete remote file manually: \(remoteTestFileB)")
+    }
+
 }

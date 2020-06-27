@@ -35,6 +35,7 @@ fileprivate struct API {
     static let metadata = URL(string: "https://api.dropboxapi.com/2/files/get_metadata")!
     static let download = URL(string: "https://content.dropboxapi.com/2/files/download")!
     static let move = URL(string: "https://api.dropboxapi.com/2/files/move")!
+    static let copy = URL(string: "https://api.dropboxapi.com/2/files/copy")!
 }
 
 // Almost all requests include a path to a file or directory
@@ -51,6 +52,11 @@ fileprivate struct ListRequestBody: Encodable {
 }
 
 fileprivate struct MoveRequestBody: Encodable {
+    let fromPath: String
+    let toPath: String
+}
+
+fileprivate struct CopyRequestBody: Encodable {
     let fromPath: String
     let toPath: String
 }
@@ -163,6 +169,38 @@ func dbMove(fromPath: String, toPath: String) {
 
         if response.statusCode != 200 {
             var msg = "While moving [" + fromPath + "] to [" + toPath +
+                "], expected HTTP 200 but received \(response.statusCode)"
+            if let data = data, let string = String(data: data, encoding: .utf8) {
+                msg += "\nServer response:\n" + string
+            }
+            fatalError(msg)
+        }
+        semaphore.signal()
+    }.resume()
+    _ = semaphore.wait(timeout: .distantFuture)
+}
+
+// Copy a file or folder on Dropbox.
+// Doesn't return anything, just errors out if there was a problem.
+func dbCopy(fromPath: String, toPath: String) {
+    var request = makeRequest(with: API.copy)
+    let copyRequestBody = CopyRequestBody(fromPath: fromPath, toPath: toPath)
+    let encoder = JSONEncoder()
+    encoder.keyEncodingStrategy = .convertToSnakeCase
+
+    guard let body = try? encoder.encode(copyRequestBody) else {
+        fatalError("Error encoding JSON for move request")
+    }
+    request.httpBody = body
+
+    let semaphore = DispatchSemaphore(value: 0)
+    URLSession.shared.dataTask(with: request) { data, response, _ in
+        guard let response = response as? HTTPURLResponse else {
+            fatalError("Expected HTTPURLResponse")
+        }
+
+        if response.statusCode != 200 {
+            var msg = "While copying [" + fromPath + "] to [" + toPath +
                 "], expected HTTP 200 but received \(response.statusCode)"
             if let data = data, let string = String(data: data, encoding: .utf8) {
                 msg += "\nServer response:\n" + string
