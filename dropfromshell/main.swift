@@ -8,7 +8,7 @@
 //
 
 // ---------------------------------------------------------------------
-// Used to test the functions in dropfromshell.swift
+// Some examples on how to use dropfromshell.swift
 // ---------------------------------------------------------------------
 
 import Foundation
