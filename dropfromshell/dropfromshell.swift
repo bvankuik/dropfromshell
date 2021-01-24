@@ -123,12 +123,26 @@ func readOauthAccessToken() -> String {
         .appendingPathComponent("dropfromshell")
         .appendingPathComponent("dropfromshell.json")
     
+    let message =
+        """
+        Couldn't read configuration with OAuth access token from configuration file. Please create the file
+            \(fileURL.path)
+
+        With the following contents:
+            {
+                "oauthAccessToken": "aaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmmnnnnoooopppp"
+            }
+
+        Your personal access token can be created as per the following documentation:
+        https://www.dropbox.com/developers/reference/oauth-guide
+        """
+
     guard let configContents = try? Data(contentsOf: fileURL) else {
-        fatalError("Couldn't read contents of configuration file \(fileURL.path)")
+        fatalError(message)
     }
 
     guard let config = try? JSONDecoder().decode(Configuration.self, from: configContents) else {
-        fatalError("Couldn't read configuration with OAuth access token from configuration file")
+        fatalError(message)
     }
     
     return config.oauthAccessToken

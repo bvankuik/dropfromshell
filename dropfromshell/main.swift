@@ -31,7 +31,7 @@ let testfileData = UUID().uuidString.data(using: .utf8)
 try! testfileData?.write(to: localTempFile)
 
 // Try and upload
-_ = dbSimpleUpload(source: localTempFile, destinationPath: remoteTestFilePath)
+dbSimpleUpload(source: localTempFile, destinationPath: remoteTestFilePath)
 
 let metadata = dbMetadata(path: remoteTestFilePath)
 guard metadata == .file else {
