@@ -53,6 +53,12 @@ Note, it would be much cleaner if you could start an empty file, and just
 include `dropfromshell.swift` but that's not a feature that Swift supports
 right now.
 
+# Shortcomings
+
+If you wish to upload larger files, or download big directories, the Dropbox
+API provides capabilities for this (cursors). This is not implemented right
+now.
+
 # Inspiration
 
 My inspiration was the great Dropbox Uploader script. Arguably, it might be a
